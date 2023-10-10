@@ -18,7 +18,7 @@ form.on('submit', function(event){
 
 function getCoordinates(formInput){
 
-    var requestUrl = 'https://api.openweathermap.org/geo/1.0/direct?q='+formInput+'&limit=2&appid=0f93a1e1cb2dce22d83081cb1a965d8a';
+    var requestUrl = 'https://api.openweathermap.org/geo/1.0/direct?q='+formInput+'&limit=2&appid=0f93a1e1cb2dce'+'22d83081cb1a965d8a';
 
     console.log(requestUrl);
 
@@ -37,7 +37,7 @@ function getCoordinates(formInput){
 
 function getWeather(latLong){
     
-    var requestUrl = 'https://api.openweathermap.org/data/2.5/forecast?'+latLong+'&appid=0f93a1e1cb2dce22d83081cb1a965d8a';
+    var requestUrl = 'https://api.openweathermap.org/data/2.5/forecast?'+latLong+'&appid=0f93a1e1cb2dce22d'+'83081cb1a965d8a';
     console.log(requestUrl);
 
     fetch(requestUrl)
