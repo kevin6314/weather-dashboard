@@ -57,53 +57,111 @@ function storeData(data){
         statusUpdate.text('Sorry, we could not find any data');
     } else {
 
-        var currentCity= data.city.name;
-        
-        var currentCityObj = {
-            currentDate: data.list[0].dt_txt,
-            currentIcon: data.list[0].weather[0].icon,
-            currentTemp: data.list[0].main.temp,
-            currentWind: data.list[0].wind.speed,
-            currentHumidity: data.list[0].main.humidity,
-        }
+        currentWeatherEl.empty();
+        futureWeatherEl.empty();
 
-        localStorage.setItem(currentCity,JSON.stringify(currentCityObj));
-        console.log(currentCity);
+        var currentCity= data.city.name;
+
+        var currentCityObj = {
+            day0: {
+                date: data.list[0].dt_txt,
+                icon: data.list[0].weather[0].icon,
+                temp: data.list[0].main.temp,
+                wind: data.list[0].wind.speed,
+                humidity: data.list[0].main.humidity},
+
+            day1: {
+                date: data.list[8].dt_txt,
+                icon: data.list[8].weather[0].icon,
+                temp: data.list[8].main.temp,
+                wind: data.list[8].wind.speed,
+                humidity: data.list[8].main.humidity},
+
+            day2: {
+                date: data.list[16].dt_txt,
+                icon: data.list[16].weather[0].icon,
+                temp: data.list[16].main.temp,
+                wind: data.list[16].wind.speed,
+                humidity: data.list[16].main.humidity},
+
+            day3: {
+                date: data.list[24].dt_txt,
+                icon: data.list[24].weather[0].icon,
+                temp: data.list[24].main.temp,
+                wind: data.list[24].wind.speed,
+                humidity: data.list[24].main.humidity},
+
+            day4: {
+                date: data.list[32].dt_txt,
+                icon: data.list[32].weather[0].icon,
+                temp: data.list[32].main.temp,
+                wind: data.list[32].wind.speed,
+                humidity: data.list[32].main.humidity},
+        };
+
         console.log(currentCityObj);
-        getObjectFromLocalStorage(currentCity, currentCityObj);
+        localStorage.setItem(currentCity,JSON.stringify(currentCityObj));
+        getObjectFromLocalStorage(currentCity);
         }
 }
 
 function getObjectFromLocalStorage(currentCity){
     
     if(localStorage.getItem(currentCity)){
-        return JSON.parse(localStorage.getItem(currentCity));
+        var currentCityObj = JSON.parse(localStorage.getItem(currentCity));
+        console.log(currentCityObj);
+    
     } else {
-        return null;
+        console.log("There is nothing!");
+        statusUpdate.text('Sorry, we could not find any data');
     }
     
-var storedObject = getObjectFromLocalStorage(currentCity);
-    if(storedObject){
-        console.log("object found",storedObject)
-    } else {
-        console.log("object not found");
-    }
+    console.log(currentCityObj.day0);
+    console.log(currentCityObj.day0.date);
 
-    // var currentCityContent = $("<h2>"+ currentCity + "</h2>");
-    // var currentCityDate = $("<h2>"+ localStorage.getItem(currentCityObj.currentDate) + "</h2>");
-    // var currentIconContent = $("<p>"+ localStorage.getItem(currentCityObj.currentIcon) + "</p>");
-    // var currentTempContent = $("<p>Temp: "+ localStorage.getItem(currentCityObj.currentTemp) +"F</p>");
-    // var currentWindContent = $("<p>Wind: "+ localStorage.getItem(currentCityObj.currentWind) +"MPH</p>");
-    // var currentHumidityContent = $("<p>Temp: "+ localStorage.getItem(currentCityObj.currentHumidity) +"%</p>");
+    //----this is creating the top weather element----//
+    var currentCityContent = $("<h2>"+ currentCity + "</h2>");
+    var currentCityDate = $("<h2>"+ currentCityObj.day0.date + "</h2>");
+    var currentIconContent = $("<p>"+ currentCityObj.day0.icon + "</p>");
+    var currentTempContent = $("<p>Temp: "+ currentCityObj.day0.temp +"F</p>");
+    var currentWindContent = $("<p>Wind: "+ currentCityObj.day0.wind +"MPH</p>");
+    var currentHumidityContent = $("<p>Temp: "+ currentCityObj.day0.humidity +"%</p>");
 
-    // var mainCardEl = $('<div></div>').addClass('card');
-    // var cardHeaderEl = $('<div></div>').addClass('card-header');
-    // var cardBodyEl = $('<div></div>').addClass('card-body');
+    var mainCardEl = $('<div></div>').addClass('card');
+    var cardHeaderEl = $('<div></div>').addClass('card-header');
+    var cardBodyEl = $('<div></div>').addClass('card-body');
 
-    // currentWeatherEl.append(mainCardEl);
-    // mainCardEl.append(cardHeaderEl, cardBodyEl);
-    // cardHeaderEl.append(currentCityContent, currentCityDate);
-    // cardBodyEl.append(currentIconContent, currentTempContent, currentWindContent, currentHumidityContent);
+    currentWeatherEl.append(mainCardEl);
+    mainCardEl.append(cardHeaderEl, cardBodyEl);
+    cardHeaderEl.append(currentCityContent, currentCityDate);
+    cardBodyEl.append(currentIconContent, currentTempContent, currentWindContent, currentHumidityContent);
+
+    //----this is creating the bottom 5-day forecast----//
+
+    console.log("marker 0");
+
+    for(var day in currentCityObj) {
+
+        console.log("marker1");
+
+        var futurecardEl = $('<div></div>').addClass('card text-white bg-dark mb-3 mx-1').css('max-width', '18rem');
+        var futurecardHeaderEl = $('<div></div>').addClass('card-header');
+        var futurecardBodyEl = $('<div></div>').addClass('card-body');
+
+        var futureDateContent = $("<h5>"+ currentCityObj[day].date +"</h5>").addClass('card-title');
+        var futureIconContent = $("<p>"+ currentCityObj[day].icon + "</p>").addClass('card-text');
+        var futureTempContent = $("<p>Temp: "+ currentCityObj[day].temp +"F</p>").addClass('card-text');
+        var futureWindContent = $("<p>Wind: "+ currentCityObj[day].wind +"MPH</p>").addClass('card-text');
+        var futureHumidityContent = $("<p>Temp: "+ currentCityObj[day].humidity +"%</p>").addClass('card-text');
+        
+        futurecardBodyEl.append(futureIconContent, futureTempContent, futureWindContent, futureHumidityContent);
+        futurecardHeaderEl.append(futureDateContent);
+        futurecardEl.append(futurecardHeaderEl, futurecardBodyEl);
+        futureWeatherEl.append(futurecardEl);
+
+        console.log("marker2");
+
+     }
 }
 
 
