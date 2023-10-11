@@ -9,6 +9,20 @@ var futureWeatherEl = $('#future-weather');
 
 //----FUNCTIONS----//
 
+init();
+
+function init() {
+
+    var keys = Object.keys(localStorage);
+
+    if(keys.length>0){
+        keys.forEach(function(key){
+            var oldHistory = $("<a>"+ key + "</a>").addClass("btn btn-secondary my-1 w-100");
+            searchHistory.append(oldHistory);
+        })
+    }
+}
+
 form.on('submit', function(event){
 
     event.preventDefault();
