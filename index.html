@@ -28,29 +28,36 @@
       <p class="lead">hopefully not cloudy with a chance of meatballs</p>
     </header>
     
-    <div id="sidebar">
+    <div class="containter-fluid">
+      <div class="row">
+        <div id="sidebar" class="col-md-3 d-md-block bg-light sidebar h-100">
 
-        <form class="container-lg px-5 col-3" id = "my-form">
-
-            <!--search bar-->
-
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-default">City</span>
+            <form class="container-lg" id = "my-form">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">City</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Default" id='input-field' aria-describedby="inputGroup-sizing-default">
                 </div>
-                <input type="text" class="form-control" aria-label="Default" id='input-field' aria-describedby="inputGroup-sizing-default">
-            </div>
-            
-            <input class="btn btn-primary my-3" id="submit-button" type="submit" value="Search">
+                
+                <input class="btn btn-primary my-3 w-100" id="submit-button" type="submit" value="Search">
 
-            <p id="search-status"></p>
-        </form>
+                <p id="search-status"></p>
+            </form>
+            <div id="search-history" class="container-lg"></div>
 
+      </div>
+
+        <div id="weather-details" class="col-md-9 ml-md-auto">
+
+          <div id="current-weather" class="w-100 p-3"></div>
+          <div class="containter-fluid">
+            <div id="future-weather" class="row">
+          </div>
+        </div>
+
+        </div>
     </div>
-
-    <div id="weather-details">
-      <div id="current-weather"></div>
-      <div id="future-weather"></div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

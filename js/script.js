@@ -4,6 +4,7 @@ var submitButton = $('#submit-button');
 var searchStatus = $('#search-status');
 var userInput = $('#input-field');
 var statusUpdate = $('#search-status');
+var searchHistory = $('#search-history');
 var currentWeatherEl = $('#current-weather');
 var futureWeatherEl = $('#future-weather');
 
@@ -14,7 +15,16 @@ form.on('submit', function(event){
     event.preventDefault();
     var formInput = userInput.val();
     getCoordinates(formInput);
+
 });
+
+searchHistory.on('click',function(event){
+    
+    event.preventDefault();
+    var buttonText = $(event.target).text();
+    getCoordinates(buttonText);
+
+})
 
 function getCoordinates(formInput){
 
@@ -56,10 +66,11 @@ function renderData(data){
     if(!data){
         statusUpdate.text('Sorry, we could not find any data');
     } else {
-        var city = data.city.name;
-        console.log(city);
 
-        //var date = new Date(data.list[0].dt); //date forecasted
+        currentWeatherEl.empty();
+        futureWeatherEl.empty();
+
+        var city = data.city.name;
         var currentDate = data.list[0].dt_txt;
         var currentIcon = data.list[0].weather[0].icon; //will need to fix this
         var currentTemp = data.list[0].main.temp;
@@ -94,7 +105,7 @@ function renderData(data){
             var futureHumidity = data.list[j].main.humidity;
 
             // console.log(futureTemp);
-            var futurecardEl = $('<div></div>').addClass('card text-white bg-dark mb-3').css('style','max-width: 18rem;');
+            var futurecardEl = $('<div></div>').addClass('card text-white bg-dark mb-3 mx-1').css('max-width', '18rem');
             var futurecardTitleEl = $('<h5></h5>').addClass('card-title');
             var futurecardTextEl = $('<p></p>').addClass('card-text');
             var futurecardBodyEl = $('<div></div>').addClass('card-body');
@@ -111,6 +122,9 @@ function renderData(data){
             futurecardEl.append(futurecardHeaderEl, futurecardBodyEl);
             futureWeatherEl.append(futurecardEl);
          }
+
+    var previousSearches = $("<a>"+ city + "</a>").addClass("btn btn-secondary my-1 w-100");
+    searchHistory.append(previousSearches);
 
     }
 }
